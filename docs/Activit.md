@@ -44,7 +44,7 @@
  注意需要在resource文件夹中放置bpmn文件，否则报错。 
  
  在activiti-rest中集成了swagger，打开方式：
- ···
+``` 
  
 @Configuration
 @EnableSwagger2
@@ -68,5 +68,4 @@ public class SwaggerConfig {
                 .build();
     }
 }
- 
- ···
+``` 
