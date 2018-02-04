@@ -24,6 +24,17 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public Docket createRestApi2(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("activiti")
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("org.activiti.rest"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("SpringBoot test swagger")

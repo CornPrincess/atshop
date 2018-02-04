@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- 流程引擎配置的bean -->
 	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
-		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/postgres" />
+		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5555/postgres" />
 		<property name="jdbcDriver" value="org.postgresql.Driver" />
 		<property name="jdbcUsername" value="postgres" />
 		<property name="jdbcPassword" value="root" />
