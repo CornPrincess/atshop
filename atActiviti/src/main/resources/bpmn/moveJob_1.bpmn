@@ -4,7 +4,7 @@
 	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
 	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema"
 	expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-	<process id="async-continuation" name="async-continuation">
+	<process id="moveJob1" name="moveJob1">
 		<startEvent id="startevent1" name="Start"></startEvent>
 		<serviceTask id="servicetask1" name="Service Task"
 			activiti:async="true" 
@@ -23,17 +23,17 @@
 			id="BPMNPlane_async-continuation">
 			<bpmndi:BPMNShape bpmnElement="startevent1"
 				id="BPMNShape_startevent1">
-				<omgdc:Bounds height="35" width="35" x="-15.5" y="-128.5"></omgdc:Bounds>
+				<omgdc:Bounds height="35" width="35" x="220" y="210"></omgdc:Bounds>
 			</bpmndi:BPMNShape>
 			<bpmndi:BPMNShape bpmnElement="servicetask1"
 				id="BPMNShape_servicetask1">
-				<omgdc:Bounds height="55" width="105" x="-52.5" y="-27.5"></omgdc:Bounds>
+				<omgdc:Bounds height="55" width="105" x="320" y="200"></omgdc:Bounds>
 			</bpmndi:BPMNShape>
 			<bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-				<omgdc:Bounds height="35" width="35" x="1037.5" y="-26.5"></omgdc:Bounds>
+				<omgdc:Bounds height="35" width="35" x="660" y="210"></omgdc:Bounds>
 			</bpmndi:BPMNShape>
 			<bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
-				<omgdc:Bounds height="55" width="105" x="576.5" y="-55.5"></omgdc:Bounds>
+				<omgdc:Bounds height="55" width="105" x="496" y="200"></omgdc:Bounds>
 			</bpmndi:BPMNShape>
 			<bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
 				<omgdi:waypoint x="425" y="227"></omgdi:waypoint>

@@ -5,6 +5,7 @@ import org.activiti.engine.history.*;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Job;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
@@ -502,4 +503,156 @@ public class ActivitiTest {
         // 查询工作数量
         System.out.println("工作数量：" + managementService.createJobQuery().count());
     }
+    @Test
+    public void deadLetterJob(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务实例
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 管理服务组件
+        ManagementService managementService = engine.getManagementService();
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/deadletter.bpmn").deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("deadletter");
+        // 设置重试次数
+        Job job = managementService.createJobQuery().singleResult();
+        managementService.setJobRetries(job.getId(), 1);
+        // 重新执行该工作，抛出异常
+        try {
+            managementService.executeJob(job.getId());
+        } catch (Exception e) {
+
+        }
+        // 查询无法执行工作表
+        long deadCount = managementService.createDeadLetterJobQuery().count();
+        System.out.println("无法执行的工作，数据量：" + deadCount);
+    }
+
+    @Test
+    public void eventTest(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务实例
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 任务服务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        repositoryService
+                .createDeployment()
+                .addClasspathResource("bpmn/event.bpmn")
+                .deploy();
+        runtimeService.startProcessInstanceByKey("event");
+        // 将task1的工作完成后，就会产生工作
+        Task task = taskService.createTaskQuery().taskName("Task1").singleResult();
+        taskService.complete(task.getId());
+        // 查询工作数量
+        System.out.println("工作数量：" + engine.getManagementService().createJobQuery().count());
+    }
+
+    @Test
+    public void suspendJob(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务实例
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 管理服务组件
+        ManagementService managementService = engine.getManagementService();
+        // 部署流程文件
+        Deployment dep = repositoryService
+                .createDeployment()
+                .addClasspathResource("bpmn/SuspendJob.bpmn")
+                .deploy();
+        // 启动流程实例
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("suspendJob");
+        // 查询定时器表的数量
+        long timerCount = managementService.createTimerJobQuery().count();
+        System.out.println("中断前定时器表的数据量：" + timerCount);
+        // 查询中断表的数量
+        long suspendCount = managementService.createSuspendedJobQuery().count();
+        System.out.println("中断前中断表数据量：" + suspendCount);
+        // 中断流程实例
+        runtimeService.suspendProcessInstanceById(pi.getId());
+        // 查询定时器表的数量
+        timerCount = managementService.createTimerJobQuery().count();
+        System.out.println("中断后定时器表的数据量：" + timerCount);
+        // 查询中断表的数量
+        suspendCount = managementService.createSuspendedJobQuery().count();
+        System.out.println("中断后中断表数据量：" + suspendCount);
+    }
+
+    @Test
+    public void timerIntermediateTransition(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务实例
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 部署流程文件
+        repositoryService
+                .createDeployment()
+                .addClasspathResource("bpmn/timer-intermediate-transition.bpmn")
+                .deploy();
+        // 开始流程
+        runtimeService.startProcessInstanceByKey("timer-intermediate-transition");
+        // 查询工作数量
+        System.out.println("工作数量：" + engine.getManagementService().createTimerJobQuery().count());
+    }
+
+    @Test
+    public void getProperties(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到管理服务组件
+        ManagementService managementService = engine.getManagementService();
+        Map<String, String> props = managementService.getProperties();
+        //输出属性
+        for (String key : props.keySet()) {
+            System.out.println("属性：" + key + " 值为：" + props.get(key));
+        }
+    }
+
+    @Test
+    public void signalEvent(){
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/SignalDefine.bpmn").deploy();
+    }
+
+    @Test
+    public void startEvent() throws InterruptedException {
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/TimerStartEvent.bpmn").deploy();
+        // 等待时间条件
+        Thread.sleep(70 * 1000);
+        // 查询流程实例
+        List<ProcessInstance> ints = runtimeService.createProcessInstanceQuery().list();
+        System.out.println(ints.size());
+        System.exit(0);
+    }
+
+//    @Test
+//    public void
+
 }
