@@ -1,13 +1,18 @@
 package com.atsho.activitimanage.controller;
 
+import com.atsho.activitimanage.acitivitidemo.DelegateBean;
+import com.atsho.activitimanage.acitivitidemo.ExpressionBean;
+import com.atsho.activitimanage.acitivitidemo.MyJavaBean;
 import org.activiti.engine.*;
 import org.activiti.engine.history.*;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.Job;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URL;
@@ -20,6 +25,28 @@ import java.util.UUID;
 
 
 public class ActivitiTest {
+
+    private ProcessEngine engine;
+    private RepositoryService repositoryService;
+    private RuntimeService runtimeService;
+    private TaskService taskService;
+    private ManagementService managementService;
+    private HistoryService historyService;
+
+    @Before
+    public void setUp() {
+        // 创建流程引擎
+        engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务实例
+        repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        runtimeService = engine.getRuntimeService();
+        // 得到历史服务组件
+        historyService = engine.getHistoryService();
+        // 得到任务组件
+        taskService = engine.getTaskService();
+    }
+
     @Test
     public void getDefault() {
         //使用Activiti默认的方式创建ProcessEngineConfiguration
@@ -159,7 +186,7 @@ public class ActivitiTest {
 
 
     @Test
-    public void addGroup(){
+    public void addGroup() {
         // 创建默认的流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到身份服务组件实例
@@ -185,7 +212,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void delGroup(){
+    public void delGroup() {
         // 创建默认的流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到身份服务组件实例
@@ -207,10 +234,9 @@ public class ActivitiTest {
     }
 
 
-
     //历史查询
     @Test
-    public void query(){
+    public void query() {
 // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到流程存储服务实例
@@ -255,8 +281,9 @@ public class ActivitiTest {
         datas = historyService.createHistoricActivityInstanceQuery().unfinished().list();
         System.out.println("使用unfinished查询：" + datas.size());//结果1
     }
+
     @Test
-    public void delet(){
+    public void delet() {
 // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到流程存储服务实例
@@ -307,21 +334,10 @@ public class ActivitiTest {
                 + historyService.createHistoricProcessInstanceQuery().count());
 
 
-
     }
 
     @Test
-    public void detailQuery(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务实例
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
-        // 得到历史服务组件
-        HistoryService historyService = engine.getHistoryService();
-        // 得到任务组件
-        TaskService taskService = engine.getTaskService();
+    public void detailQuery() {
         // 部署流程文件
         repositoryService.createDeployment()
                 .addClasspathResource("bpmn/DetailQuery.bpmn").deploy();
@@ -356,16 +372,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void proccessInstanceQuery(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务实例
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
-        // 得到历史服务组件
-        HistoryService historyService = engine.getHistoryService();
-        TaskService taskService = engine.getTaskService();
+    public void proccessInstanceQuery() {
         // 部署流程文件
         Deployment deploy = repositoryService.createDeployment()
                 .addClasspathResource("bpmn/ProcessInstanceQuery.bpmn").deploy();
@@ -486,15 +493,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void asyncConfig(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务实例
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到管理服务实例
-        ManagementService managementService = engine.getManagementService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
+    public void asyncConfig() {
         // 部署流程文件
         repositoryService.createDeployment().addClasspathResource("bpmn/async-continuation.bpmn")
                 .deploy();
@@ -503,8 +502,9 @@ public class ActivitiTest {
         // 查询工作数量
         System.out.println("工作数量：" + managementService.createJobQuery().count());
     }
+
     @Test
-    public void deadLetterJob(){
+    public void deadLetterJob() {
         // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到流程存储服务实例
@@ -532,7 +532,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void eventTest(){
+    public void eventTest() {
         // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
         // 得到流程存储服务实例
@@ -555,15 +555,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void suspendJob(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务实例
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
-        // 管理服务组件
-        ManagementService managementService = engine.getManagementService();
+    public void suspendJob() {
         // 部署流程文件
         Deployment dep = repositoryService
                 .createDeployment()
@@ -588,13 +580,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void timerIntermediateTransition(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务实例
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
+    public void timerIntermediateTransition() {
         // 部署流程文件
         repositoryService
                 .createDeployment()
@@ -607,11 +593,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void getProperties(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到管理服务组件
-        ManagementService managementService = engine.getManagementService();
+    public void getProperties() {
         Map<String, String> props = managementService.getProperties();
         //输出属性
         for (String key : props.keySet()) {
@@ -620,14 +602,7 @@ public class ActivitiTest {
     }
 
     @Test
-    public void signalEvent(){
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务组件
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
-        TaskService taskService = engine.getTaskService();
+    public void signalEvent() {
         // 部署流程文件
         repositoryService.createDeployment()
                 .addClasspathResource("bpmn/SignalDefine.bpmn").deploy();
@@ -635,12 +610,6 @@ public class ActivitiTest {
 
     @Test
     public void startEvent() throws InterruptedException {
-        // 创建流程引擎
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        // 得到流程存储服务组件
-        RepositoryService repositoryService = engine.getRepositoryService();
-        // 得到运行时服务组件
-        RuntimeService runtimeService = engine.getRuntimeService();
         // 部署流程文件
         repositoryService.createDeployment()
                 .addClasspathResource("bpmn/TimerStartEvent.bpmn").deploy();
@@ -652,7 +621,206 @@ public class ActivitiTest {
         System.exit(0);
     }
 
-//    @Test
-//    public void
+    @Test
+    public void messageCatchEvent() {
+        // 创建流程引擎
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/MessageCatchingEvent.bpmn").deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("mcProcess");
+        Execution exe = runtimeService.createExecutionQuery().activityId("messageintermediatecatchevent1").singleResult();
+        runtimeService.messageEventReceived("myMsg", exe.getId());
+        // 输出当前的任务
+        List<Task> tasks = taskService.createTaskQuery().list();
+        for (Task task : tasks) {
+            System.out.println(task.getName());
+        }
+    }
+
+    @Test
+    public void signalCatchEvent() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/SignalCatchingEvent.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("scProcess");
+        Task firstTask = taskService.createTaskQuery().singleResult();
+        taskService.complete(firstTask.getId());
+        // 此时会出现并行的两个流程分支，查找用户任务并完成
+        Task payTask = taskService.createTaskQuery().singleResult();
+        // 完成任务
+        taskService.complete(payTask.getId());
+        // 发送信号完成支付
+        runtimeService.signalEventReceived("finishPay");
+        Task finishTask = taskService.createTaskQuery().singleResult();
+        System.out.println("当前流程任务：" + finishTask.getName());
+    }
+
+    @Test
+    public void signalThrowEvent() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/SignalThrowingEvent.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("stProcess");
+        // 完成选择商品任务
+        Task firstTask = taskService.createTaskQuery().singleResult();
+        taskService.complete(firstTask.getId());
+        // 完成用户支付任务
+        Task payTask = taskService.createTaskQuery().singleResult();
+        taskService.complete(payTask.getId());
+        // 由于使用了异步的中间Throwing事件，因此会产生2条工作数据
+        List<Job> jobs = managementService.createJobQuery().list();
+        System.out.println(jobs.size());
+    }
+
+    @Test
+    public void timerCatchingEvent() throws InterruptedException {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/TimerCatchingEvent.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("tcProcess");
+        // 查询当前任务
+        Task currentTask = taskService.createTaskQuery().singleResult();
+        taskService.complete(currentTask.getId());
+        Thread.sleep(1000 * 70);
+        // 重新查询当前任务
+        currentTask = taskService.createTaskQuery().singleResult();
+        System.out.println("定时器中间事件的触发后任务：" + currentTask.getName());
+    }
+
+
+    @Test
+    public void variable1() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/Variable1.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("myProcess");
+    }
+
+    // 12
+    @Test
+    public void asignee() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/Assignee.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("process1");
+    }
+
+    @Test
+    public void candidate() {
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/Candidate.bpmn").deploy();
+        // 启动流程
+        runtimeService.startProcessInstanceByKey("process1");
+        // 根据用户组查询任务
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("boss").list();
+        System.out.println("分配到boss用户组下的任务数量：" + tasks.size());
+        // 根据用户查询任务
+        tasks = taskService.createTaskQuery().taskCandidateUser("angus").list();
+        System.out.println("用户angus下的任务数量为：" + tasks.size());
+    }
+
+    @Test
+    public void javaBeanServiceTask() {
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/JavaBeanServiceTask.bpmn").deploy();
+        Map<String, Object> vars = new HashMap<String, Object>();
+        vars.put("myBean", new MyJavaBean());
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey(
+                "process1", vars);
+        // 进行任务参数查询
+        System.out.println("运行两个Service Task的myName参数值为："
+                + runtimeService.getVariable(pi.getId(), "myName"));
+    }
+
+    @Test
+    public void classTaskListener() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/ClassTaskListener.bpmn").deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("process1");
+    }
+
+    @Test
+    public void delegateExpressionTaskListener() {
+        // 部署流程文件
+        repositoryService
+                .createDeployment()
+                .addClasspathResource(
+                        "bpmn/DelegateExpressionTaskListener.bpmn")
+                .deploy();
+        // 初始化参数
+        Map<String, Object> vars = new HashMap<String, Object>();
+        vars.put("myDelegate", new DelegateBean());
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey(
+                "process1", vars);
+    }
+
+    @Test
+    public void expressionTaskListener() {
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/ExpressionTaskListener.bpmn").deploy();
+        // 初始化参数
+        Map<String, Object> vars = new HashMap<String, Object>();
+        vars.put("myBean", new ExpressionBean());
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("process1", vars);
+    }
+
+    @Test
+    public void listenerFire() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/ListenerFire.bpmn").deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService
+                .startProcessInstanceByKey("process1");
+        // 查询并完成任务
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId())
+                .singleResult();
+        taskService.complete(task.getId());
+    }
+
+    @Test
+    public void propertyInjection() {
+        // 部署流程文件
+        repositoryService.createDeployment()
+                .addClasspathResource("bpmn/PropertyInjection.bpmn").deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey("process1");
+    }
+
+    @Test
+    public void executionListenerInvocation() {
+        // 部署流程文件
+        repositoryService
+                .createDeployment()
+                .addClasspathResource(
+                        "bpmn/ExecutionListenerInvocation.bpmn")
+                .deploy();
+        // 启动流程
+        ProcessInstance pi = runtimeService
+                .startProcessInstanceByKey("process1");
+        // 查找并完成任务
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        taskService.complete(task.getId());
+    }
+
+    // 13
+
 
 }
