@@ -13,8 +13,9 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class ProducerTool {        
     private String user = ActiveMQConnection.DEFAULT_USER;         
     private String password = ActiveMQConnection.DEFAULT_PASSWORD;       
-    private String url = ActiveMQConnection.DEFAULT_BROKER_URL;       
-    private String subject = "myqueue";      
+    private String url = "failover://tcp://172.21.231.253:61616";
+//    private String url = ActiveMQConnection.DEFAULT_BROKER_URL;
+    private String subject = "myqueue";
     private Destination destination = null;      
     private Connection connection = null;      
     private Session session = null;      

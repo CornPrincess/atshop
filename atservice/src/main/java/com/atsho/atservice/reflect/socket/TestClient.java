@@ -11,8 +11,6 @@ import java.net.Socket;
 public class TestClient {
 
 	public static void main(String[] args) throws Exception {
-		
-
 
 		Socket socket = new Socket("localhost", 9898);
 		OutputStream out = socket.getOutputStream();
@@ -26,11 +24,6 @@ public class TestClient {
 		String readLine = br.readLine();
 		
 		System.out.println("client get result: " + readLine);
-		
-		
 		socket.close();
-
-
-		
 	}
 }

@@ -14,3 +14,19 @@
 
 部署：
 dockerfile 
+
+JMS:
+activeMQ
+
+打包后放置于应用文件夹，准备dockerfile。具体实现方式，请使用脚本，推荐groovy或者python
+
+使用的docker镜像：
+1. dockerhub：
+2. 本地应用镜像：
+
+# 前端部分
+### 后台管理
+后台管理采用ng-admin2(ngx-admin),修改部分功能。
+
+# 数据抓取
+数据源：

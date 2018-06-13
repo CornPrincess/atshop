@@ -26,7 +26,7 @@ public class ConsumerTest implements Runnable {
 			ConsumerTool consumer = new ConsumerTool();
 			consumer.consumeMessage();
 			while (ConsumerTool.isconnection) {	
-				//System.out.println(123);
+				System.out.println(123);
 			}
 		} catch (Exception e) {
 		}
