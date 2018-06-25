@@ -1,7 +1,12 @@
 package com.atsho.atservice.reflect;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Setter
+@Getter
 public class Person implements Serializable,TestInterface{
 	private Long id;
 	public String name;
@@ -26,22 +31,6 @@ public class Person implements Serializable,TestInterface{
 	private Person(String name) {
 		super();
 		this.name = name+"=======";
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String toString() {
