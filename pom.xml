@@ -11,6 +11,7 @@
 		<module>atUserManageMent</module>
 		<module>atConfig</module>
 		<module>atActiviti</module>
+        <module>atHdfs</module>
     </modules>
     <packaging>pom</packaging>
 
