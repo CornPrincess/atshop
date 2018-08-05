@@ -1,4 +1,4 @@
-package com.atai.bigdata.flowsum;
+package com.atshop;
 
 import java.io.IOException;
 
@@ -27,6 +27,7 @@ public class FlowCount {
 			//取出上行流量下行流量
 			long upFlow = Long.parseLong(fields[fields.length-3]);
 			long dFlow = Long.parseLong(fields[fields.length-2]);
+			
 			context.write(new Text(phoneNbr), new FlowBean(upFlow, dFlow));
 		}
 	}
@@ -44,13 +45,9 @@ public class FlowCount {
 				sum_upFlow += bean.getUpFlow();
 				sum_dFlow += bean.getdFlow();
 			}
-			
 			FlowBean resultBean = new FlowBean(sum_upFlow, sum_dFlow);
 			context.write(key, resultBean);
-			
-			
 		}
-		
 	}
 	
 	
