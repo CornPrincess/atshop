@@ -24,6 +24,11 @@ activeMQ
 1. dockerhub：
 2. 本地应用镜像：
 
+配置：
+* mysql
+> docker run --name mysql -p 12345:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:5.6.35
+* redis
+
 # 前端部分
 ### 后台管理
 后台管理采用ng-admin2(ngx-admin),修改部分功能。

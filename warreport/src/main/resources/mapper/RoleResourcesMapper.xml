@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.mapper.RoleResourcesMapper">
-  <resultMap id="BaseResultMap" type="com.study.model.RoleResources">
+<mapper namespace="com.atshop.shiro.warreport.mapper.RoleResourcesMapper">
+  <resultMap id="BaseResultMap" type="com.atshop.shiro.warreport.model.RoleResources">
     <!--
       WARNING - @mbg.generated
     -->

@@ -23,6 +23,7 @@ public class DruidConfig {
         return servletRegistrationBean;
     }
 
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
