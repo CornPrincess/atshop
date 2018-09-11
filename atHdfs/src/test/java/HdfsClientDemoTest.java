@@ -30,12 +30,12 @@ public class HdfsClientDemoTest {
     }
     @Test
     public void upload() throws IOException {
-        fs.copyFromLocalFile(new Path("E:\\code\\java\\atshop\\atservice\\pom.xml"), new Path("/"));
+        fs.copyFromLocalFile(new Path("E:\\code\\java\\atshop\\atHdfs\\src\\test\\java\\HdfsClientDemoTest.java"), new Path("/"));
         fs.close();
     }
 
     @Test
     public void testDownLoad() throws IOException {
-        fs.copyToLocalFile(new Path("/pom.xml"),new Path("D:\\a.xml") );
+        fs.copyToLocalFile(new Path("/pom.xml"),new Path("D:\\aa.xml") );
     }
 }
