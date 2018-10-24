@@ -1,4 +1,8 @@
->import java.util.regex.Pattern;
+
+
+
+<pre>
+import java.util.regex.Pattern;
 public class App {
     private static Pattern pattern;
     private static Pattern ptipv4;
@@ -43,7 +47,6 @@ public class App {
 
 
 
-<pre>
 public class IpTest {
     public static void main(String[] args) {
         System.out.println(isInRange("192.168.1.127", "192.168.1.64/26"));
