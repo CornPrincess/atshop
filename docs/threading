@@ -10,3 +10,4 @@
 * 计划任务ScheduledExecutorService
 * Fork-Join分治编程
 * 并发集合框架
+* 原子类Atomic*[Java 并发：原子类](https://www.cnblogs.com/chengxiao/p/6789109.html)
