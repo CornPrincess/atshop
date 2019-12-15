@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="" ?>
-<process id="myProcess" name="myProcess">
-    <startEvent id="userTask" name="Start"></startEvent>
-
-</process>
