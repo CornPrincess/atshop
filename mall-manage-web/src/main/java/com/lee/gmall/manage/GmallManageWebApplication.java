@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -23,9 +24,9 @@ public class GmallManageWebApplication {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         //单个文件最大
-        factory.setMaxFileSize("10240KB"); //KB,MB
+        factory.setMaxFileSize(DataSize.ofMegabytes(10240)); //KB,MB
         /// 设置总上传数据总大小
-        factory.setMaxRequestSize("102400KB");
+        factory.setMaxRequestSize(DataSize.ofKilobytes(10240));
         return factory.createMultipartConfig();
     }
 
