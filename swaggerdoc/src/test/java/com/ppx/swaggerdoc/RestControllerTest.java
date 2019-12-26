@@ -13,9 +13,7 @@ import java.nio.file.Paths;
 
 public class RestControllerTest {
 
-    @Test
-    public void getUser() {
-    }
+
     /**
      * 生成AsciiDocs格式文档
      * @throws Exception
