@@ -82,6 +82,8 @@
 				<artifactId>dubbo</artifactId>
 				<version>${dubbo.version}</version>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+
 
 			<dependency>
 				<groupId>com.101tec</groupId>
@@ -178,6 +180,14 @@
 
 	</dependencyManagement>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.10</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
