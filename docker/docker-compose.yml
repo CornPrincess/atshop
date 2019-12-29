@@ -1,18 +1,18 @@
 version: '3'
 services:
-#  redis:
-#    image: redis
-#    restart: always
-#    ports:
-#      - 6379:6379
-#    command: redis-server --requirepass rootatai  --notify-keyspace-events Egl
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 16379:6379
+    command: redis-server --requirepass rootatai  --notify-keyspace-events Egl
 
   mysql:
     restart: always
     image: mysql:5.7
     container_name: mysqlmall
     ports:
-      - 3307:3306
+      - 13306:3306
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root

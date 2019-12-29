@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo login(UserInfo userInfo) {
         UserInfo user = userInfoMapper.selectOne(userInfo);
-        if (user != null) {
-            //同步缓存
-            Jedis jedis = redisUtil.getJedis();
-            jedis.set("user:" + user.getId() + ":info", JSON.toJSONString(user));
-            jedis.close();
-        }
+//        if (user != null) {
+//            //同步缓存
+//            Jedis jedis = redisUtil.getJedis();
+//            jedis.set("user:" + user.getId() + ":info", JSON.toJSONString(user));
+//            jedis.close();
+//        }
         return user;
     }
 
