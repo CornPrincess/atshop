@@ -1,12 +1,12 @@
 package com.lee.gmall.manage.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.lee.gmall.bean.BaseAttrInfo;
 import com.lee.gmall.bean.BaseAttrValue;
 import com.lee.gmall.manage.mapper.BaseAttrInfoMapper;
 import com.lee.gmall.manage.mapper.BaseAttrValueMapper;
 import com.lee.gmall.service.AttrService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

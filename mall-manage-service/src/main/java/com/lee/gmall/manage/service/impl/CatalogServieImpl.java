@@ -1,6 +1,6 @@
 package com.lee.gmall.manage.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.Service;
 import com.lee.gmall.bean.BaseCatalog1;
 import com.lee.gmall.bean.BaseCatalog2;
 import com.lee.gmall.bean.BaseCatalog3;

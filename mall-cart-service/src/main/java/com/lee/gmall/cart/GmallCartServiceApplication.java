@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
+//@EnableDubbo(scanBasePackages = "com.lee.gmall.cart.service.impl")
 @MapperScan(basePackages = "com.lee.gmall.cart.mapper")
 @ComponentScan("com.lee.gmall.util")
 public class GmallCartServiceApplication {

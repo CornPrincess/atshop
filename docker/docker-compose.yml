@@ -26,3 +26,26 @@ services:
       --lower_case_table_names=1
       --max_allowed_packet=128M
       --sql-mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO"
+
+
+  zoo1:
+    image: zookeeper:3.4.14
+    restart: always
+    container_name: zoo1
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+
+
+  admin:
+    image: apache/dubbo-admin
+    depends_on:
+      - zoo1
+    ports:
+      - 8080
+    environment:
+      - admin.registry.address=zookeeper://zoo1:2181
+      - admin.config-center=zookeeper://zoo1:2181
+      - admin.metadata-report.address=zookeeper://zoo1:2181
