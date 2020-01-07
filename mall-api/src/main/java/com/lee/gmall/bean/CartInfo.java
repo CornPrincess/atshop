@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 @Data
 public class CartInfo implements Serializable {
-
   private String id;
   private String userId;
   private String skuId;
